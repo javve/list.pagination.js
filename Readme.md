@@ -1,17 +1,9 @@
+# list.pagination.js
+A pagination plugin for List.js
 
-# list.paging.js
+## Documentation
 
-  A paging plugin for list.js
-
-## Installation
-
-  Install with [component(1)](http://component.io):
-
-    $ component install javve/list.paging.js
-
-## API
-
-
+Go to [Listjs.com/docs/plugins/pagination](http://listjs.com/docs/plugins/pagination).
 
 ## License
 
