@@ -6,12 +6,12 @@
   "keywords": [],
   "dependencies": {
     "component/classes": "*",
-    "component/event": "*"
+    "component/event": "*",
+    "component/indexof": "*"
   },
   "development": {
-    "javve/list.js": "*",
     "visionmedia/mocha": "*",
-    "chaijs/chai": "*",
+    "techjacker/expect.js": "*",
     "component/jquery": "1.9.1"
   },
   "license": "MIT",
