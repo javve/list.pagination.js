@@ -4066,7 +4066,8 @@ var EventEmitter = require('browser/events').EventEmitter
   , utils = require('./utils')
   , filter = utils.filter
   , keys = utils.keys
-  , noop = function(){};
+  , noop = function(){}
+  , immediately = global.setImmediate || process.nextTick;
 
 /**
  * Non-enumerable globals.
@@ -4246,7 +4247,7 @@ Runner.prototype.fail = function(test, err){
   if ('string' == typeof err) {
     err = new Error('the string "' + err + '" was thrown, throw an Error :)');
   }
-  
+
   this.emit('fail', test, err);
 };
 
@@ -4303,7 +4304,7 @@ Runner.prototype.hook = function(name, fn){
     });
   }
 
-  process.nextTick(function(){
+  immediately(function(){
     next(0);
   });
 };
@@ -4546,14 +4547,16 @@ Runner.prototype.run = function(fn){
   var self = this
     , fn = fn || function(){};
 
+  function uncaught(err){
+    self.uncaught(err);
+  }
+
   debug('start');
 
   // callback
   this.on('end', function(){
     debug('end');
-    process.removeListener('uncaughtException', function(err){
-      self.uncaught(err);
-    });
+    process.removeListener('uncaughtException', uncaught);
     fn(self.failures);
   });
 
@@ -4565,9 +4568,7 @@ Runner.prototype.run = function(fn){
   });
 
   // uncaught exception
-  process.on('uncaughtException', function(err){
-    self.uncaught(err);
-  });
+  process.on('uncaughtException', uncaught);
 
   return this;
 };
