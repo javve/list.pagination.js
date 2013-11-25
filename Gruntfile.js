@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     pkg: require("./package.json"),
     watch: {
       scripts: {
-        files: ['*.js', 'test/*.html'],
+        files: ['*.js', 'test/*.html', 'test/*.js'],
         tasks: ['default'],
         options: {
           spawn: false,
