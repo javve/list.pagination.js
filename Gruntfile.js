@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         }
       },
       standalone: {
-        command: 'component build --standalone List -n list.pagination.standalone'
+        command: 'component build --standalone ListPagination -n list.pagination.standalone'
       },
       mkdir: {
         command: 'mkdir -p dist'
