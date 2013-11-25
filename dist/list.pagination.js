@@ -672,6 +672,15 @@ module.exports = function(a, b, options) {
 }
 */
 });
+require.register("javve-to-string/index.js", function(exports, require, module){
+module.exports = function(s) {
+    s = (s === undefined) ? "" : s;
+    s = (s === null) ? "" : s;
+    s = s.toString();
+    return s;
+};
+
+});
 require.register("component-type/index.js", function(exports, require, module){
 
 /**
@@ -740,6 +749,7 @@ var List = function(id, options, values) {
     this.searched       = false;
     this.filtered       = false;
     this.handlers       = { 'updated': [] };
+    this.plugins        = {};
 
     extend(this, options);
 
@@ -923,29 +933,15 @@ var List = function(id, options, values) {
     init.start(values);
 };
 
-List.prototype.plugins = {};
-
-// AMD support
-if (typeof define === 'function' && define.amd) {
-    define(function () { return List; });
-// CommonJS and Node.js module support.
-} else if (typeof exports !== 'undefined') {
-    // Support Node.js specific `module.exports` (which can be a function)
-    if (typeof module != 'undefined' && module.exports) {
-        exports = module.exports = List;
-    }
-    // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
-    exports.List = List;
-} else {
-    window.List = List;
-}
+module.exports = List;
 
 })(window);
 
 });
 require.register("list/src/search.js", function(exports, require, module){
 var events = require('events'),
-    getByClass = require('get-by-class');
+    getByClass = require('get-by-class'),
+    toString = require('to-string');
 
 module.exports = function(list) {
     var item,
@@ -974,11 +970,8 @@ module.exports = function(list) {
             columns = (columns === undefined) ? prepare.toArray(list.items[0].values()) : columns;
         },
         setSearchString: function(s) {
-            s = (s === undefined) ? "" : s;
-            s = s.target || s.srcElement || s; // IE have srcElement
-            s = s.value || s;
-            s = s.toLowerCase();
-            s = s.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // Escape regular expression characters
+            s = toString(s).toLowerCase();
+            s = s.replace(/[-[\]{}()*+?.,\\^$|#]/g, "\\$&"); // Escape regular expression characters
             searchString = s;
         },
         toArray: function(values) {
@@ -1006,7 +999,7 @@ module.exports = function(list) {
         },
         values: function(values, column) {
             if (values.hasOwnProperty(column)) {
-                text = (values[column] !== null) ? values[column].toString().toLowerCase() : "";
+                text = toString(values[column]).toLowerCase();
                 if ((searchString !== "") && (text.search(searchString) > -1)) {
                     return true;
                 }
@@ -1046,7 +1039,10 @@ module.exports = function(list) {
     list.handlers.searchStart = list.handlers.searchStart || [];
     list.handlers.searchComplete = list.handlers.searchComplete || [];
 
-    events.bind(getByClass(list.listContainer, list.searchClass), 'keyup', searchMethod);
+    events.bind(getByClass(list.listContainer, list.searchClass), 'keyup', function(e) {
+        var target = e.target || e.srcElement; // IE have srcElement
+        searchMethod(target.value);
+    });
 
     return searchMethod;
 };
@@ -1478,6 +1474,7 @@ module.exports = function(options) {
 
 
 
+
 require.alias("component-classes/index.js", "list.pagination.js/deps/classes/index.js");
 require.alias("component-classes/index.js", "classes/index.js");
 require.alias("component-indexof/index.js", "component-classes/deps/indexof/index.js");
@@ -1516,6 +1513,9 @@ require.alias("javve-get-attribute/index.js", "list/deps/get-attribute/index.js"
 
 require.alias("javve-natural-sort/index.js", "list/deps/natural-sort/index.js");
 
+require.alias("javve-to-string/index.js", "list/deps/to-string/index.js");
+require.alias("javve-to-string/index.js", "list/deps/to-string/index.js");
+require.alias("javve-to-string/index.js", "javve-to-string/index.js");
 require.alias("component-type/index.js", "list/deps/type/index.js");
 
 require.alias("list.pagination.js/index.js", "list.pagination.js/index.js");if (typeof exports == "object") {
@@ -1523,5 +1523,5 @@ require.alias("list.pagination.js/index.js", "list.pagination.js/index.js");if (
 } else if (typeof define == "function" && define.amd) {
   define(function(){ return require("list.pagination.js"); });
 } else {
-  this["List"] = require("list.pagination.js");
+  this["ListPagination"] = require("list.pagination.js");
 }})();
