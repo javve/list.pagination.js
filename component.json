@@ -12,7 +12,8 @@
   "development": {
     "visionmedia/mocha": "*",
     "techjacker/expect.js": "*",
-    "component/jquery": "1.9.1"
+    "component/jquery": "1.9.1",
+    "javve/list.js": "*"
   },
   "license": "MIT",
   "main": "index.js",
