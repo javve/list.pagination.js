@@ -85,7 +85,9 @@ module.exports = function(options) {
             pagingList = new List(list.listContainer.id, {
                 listClass: options.paginationClass || 'pagination',
                 item: "<li><a class='page' href='javascript:function Z(){Z=\"\"}Z()'></a></li>",
-                valueNames: ['page', 'dotted']
+                valueNames: ['page', 'dotted'],
+                searchClass: 'pagination-search-that-is-not-supposed-to-exist',
+                sortClass: 'pagination-sort-that-is-not-supposed-to-exist'
             });
             list.on('updated', refresh);
             refresh();
