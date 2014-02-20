@@ -34,7 +34,7 @@ module.exports = function(options) {
                     dotted: false
                 })[0];
                 if (className) {
-                    classes(item.elm).add(className);
+                    classes(item.elm.firstChild).add(className);
                 }
                 addEvent(item.elm, i, page);
             } else if (is.dotted(i, left, right, currentPage, innerWindow, pagingList.size())) {
@@ -42,7 +42,7 @@ module.exports = function(options) {
                     page: "...",
                     dotted: true
                 })[0];
-                classes(item.elm).add(disabledClass);
+                classes(item.elm.firstChild).add(disabledClass);
             }
         }
     };
