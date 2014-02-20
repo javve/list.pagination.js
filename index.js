@@ -17,7 +17,8 @@ module.exports = function(options) {
             innerWindow = options.innerWindow || 2,
             left = options.left || options.outerWindow || 0,
             right = options.right || options.outerWindow || 0,
-            activeClass = options.activeClass || "active";
+            activeClass = options.activeClass || "active",
+            disabledClass = options.disabledClass || "disabled";
 
         right = pages - right;
 
@@ -41,7 +42,7 @@ module.exports = function(options) {
                     page: "...",
                     dotted: true
                 })[0];
-                classes(item.elm).add("disabled");
+                classes(item.elm).add(disabledClass);
             }
         }
     };
