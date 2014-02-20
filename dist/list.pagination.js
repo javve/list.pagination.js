@@ -452,13 +452,16 @@ module.exports = function(options) {
             currentPage = Math.ceil((index / page)),
             innerWindow = options.innerWindow || 2,
             left = options.left || options.outerWindow || 0,
-            right = options.right || options.outerWindow || 0;
+            right = options.right || options.outerWindow || 0,
+            pageClass = options.pageClass || "",
+            activeClass = options.activeClass || "active",
+            disabledClass = options.disabledClass || "disabled";
 
         right = pages - right;
 
         pagingList.clear();
         for (var i = 1; i <= pages; i++) {
-            var className = (currentPage === i) ? "active" : "";
+            var className = (currentPage === i) ? activeClass : "";
 
             //console.log(i, left, right, currentPage, (currentPage - innerWindow), (currentPage + innerWindow), className);
 
@@ -467,8 +470,11 @@ module.exports = function(options) {
                     page: i,
                     dotted: false
                 })[0];
+                if (pageClass) {
+                    classes(item.elm.firstChild).add(pageClass);
+                }
                 if (className) {
-                    classes(item.elm).add(className);
+                    classes(item.elm.firstChild).add(className);
                 }
                 addEvent(item.elm, i, page);
             } else if (is.dotted(i, left, right, currentPage, innerWindow, pagingList.size())) {
@@ -476,7 +482,10 @@ module.exports = function(options) {
                     page: "...",
                     dotted: true
                 })[0];
-                classes(item.elm).add("disabled");
+                if (pageClass) {
+                    classes(item.elm.firstChild).add(pageClass);
+                }
+                classes(item.elm.firstChild).add(disabledClass);
             }
         }
     };
@@ -552,7 +561,7 @@ require.alias("component-indexof/index.js", "indexof/index.js");
 require.alias("list.pagination.js/index.js", "list.pagination.js/index.js");if (typeof exports == "object") {
   module.exports = require("list.pagination.js");
 } else if (typeof define == "function" && define.amd) {
-  define(function(){ return require("list.pagination.js"); });
+  define([], function(){ return require("list.pagination.js"); });
 } else {
   this["ListPagination"] = require("list.pagination.js");
 }})();
