@@ -16,13 +16,14 @@ module.exports = function(options) {
             currentPage = Math.ceil((index / page)),
             innerWindow = options.innerWindow || 2,
             left = options.left || options.outerWindow || 0,
-            right = options.right || options.outerWindow || 0;
+            right = options.right || options.outerWindow || 0,
+            activeClass = options.activeClass || "active";
 
         right = pages - right;
 
         pagingList.clear();
         for (var i = 1; i <= pages; i++) {
-            var className = (currentPage === i) ? "active" : "";
+            var className = (currentPage === i) ? activeClass : "";
 
             //console.log(i, left, right, currentPage, (currentPage - innerWindow), (currentPage + innerWindow), className);
 
