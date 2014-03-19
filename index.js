@@ -16,11 +16,25 @@ module.exports = function(options) {
             currentPage = Math.ceil((index / page)),
             innerWindow = options.innerWindow || 2,
             left = options.left || options.outerWindow || 0,
-            right = options.right || options.outerWindow || 0;
+            right = options.right || options.outerWindow || 0,
+            includeDirectionLinks = options.includeDirectionLinks || false;
 
         right = pages - right;
 
         pagingList.clear();
+        if (includeDirectionLinks) {
+          // Include previous link
+          item = pagingList.add({
+              page: 'prev',
+              dotted: false
+          })[0];
+          classes(item.elm).add("prev");
+          if (currentPage - 1 > 0) {
+            addEvent(item.elm, currentPage - 1, page);
+          } else {
+            classes(item.elm).add("disabled");
+          }
+        }
         for (var i = 1; i <= pages; i++) {
             var className = (currentPage === i) ? "active" : "";
 
@@ -42,6 +56,19 @@ module.exports = function(options) {
                 })[0];
                 classes(item.elm).add("disabled");
             }
+        }
+        if (includeDirectionLinks) {
+          // Include next link
+          item = pagingList.add({
+              page: 'next',
+              dotted: false
+          })[0];
+          classes(item.elm).add("next");
+          if (currentPage + 1 <= pages) {
+            addEvent(item.elm, currentPage + 1, page);
+          } else {
+            classes(item.elm).add("disabled");
+          }
         }
     };
 
