@@ -17,7 +17,9 @@ module.exports = function(options) {
             innerWindow = options.innerWindow || 2,
             left = options.left || options.outerWindow || 0,
             right = options.right || options.outerWindow || 0,
-            includeDirectionLinks = options.includeDirectionLinks || false;
+            includeDirectionLinks = options.includeDirectionLinks || false,
+            leftDirectionText = options.leftDirectionText || '&laquo;',
+            rightDirectionText = options.rightDirectionText || '&raquo;';
 
         right = pages - right;
 
@@ -25,7 +27,7 @@ module.exports = function(options) {
         if (includeDirectionLinks) {
           // Include previous link
           item = pagingList.add({
-              page: 'prev',
+              page: leftDirectionText,
               dotted: false
           })[0];
           classes(item.elm).add("prev");
@@ -60,7 +62,7 @@ module.exports = function(options) {
         if (includeDirectionLinks) {
           // Include next link
           item = pagingList.add({
-              page: 'next',
+              page: rightDirectionText,
               dotted: false
           })[0];
           classes(item.elm).add("next");
