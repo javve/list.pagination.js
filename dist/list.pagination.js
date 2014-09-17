@@ -512,6 +512,7 @@ module.exports = function(options) {
     var addEvent = function(elm, i, page) {
        events.bind(elm, 'click', function() {
            list.show((i-1)*page + 1, page);
+           list.trigger('paged');
        });
     };
 
@@ -527,6 +528,7 @@ module.exports = function(options) {
             });
             list.on('updated', refresh);
             refresh();
+            list.handlers.paged = list.handlers.paged || [];
         },
         name: options.name || "pagination"
     };
