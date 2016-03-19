@@ -23,7 +23,7 @@ describe('On', function() {
         fixture.removeList();
     });
 
-    describe('changePage', function() {
+    describe('pageChange', function() {
         it('should be triggered before and after page change', function(done) {
             var done1 = false;
             list.on('pageChangeStart', function(list) {
