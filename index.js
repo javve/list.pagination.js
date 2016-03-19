@@ -75,13 +75,19 @@ module.exports = function(options) {
 
     var addEvent = function(elm, i, page) {
        events.bind(elm, 'click', function() {
+           list.trigger('pageChangeStart');
            list.show((i-1)*page + 1, page);
+           list.trigger('pageChangeComplete');
        });
     };
 
     return {
         init: function(parentList) {
             list = parentList;
+
+            list.handlers.pageChangeStart = list.handlers.pageChangeStart || [];
+            list.handlers.pageChangeComplete = list.handlers.pageChangeComplete || [];
+
             pagingList = new List(list.listContainer.id, {
                 listClass: options.paginationClass || 'pagination',
                 item: "<li><a class='page' href='javascript:function Z(){Z=\"\"}Z()'></a></li>",
