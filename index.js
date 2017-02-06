@@ -16,7 +16,8 @@ module.exports = function(options) {
             currentPage = Math.ceil((index / page)),
             innerWindow = options.innerWindow || 2,
             left = options.left || options.outerWindow || 0,
-            right = options.right || options.outerWindow || 0;
+            right = options.right || options.outerWindow || 0,
+			map = options.map;
 
         right = pages - right;
 
@@ -28,7 +29,9 @@ module.exports = function(options) {
 
             if (is.number(i, left, right, currentPage, innerWindow)) {
                 item = pagingList.add({
-                    page: i,
+                    page: map ? i.toString().replace(/[0-9]/g, function (n) {
+                            return map[parseInt(n,10)];
+                        }) : i,
                     dotted: false
                 })[0];
                 if (className) {
