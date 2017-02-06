@@ -28,9 +28,6 @@ module.exports = function(grunt) {
       standalone: {
         command: 'component build --standalone ListPagination -n list.pagination.standalone'
       },
-      mkdir: {
-        command: 'mkdir -p dist'
-      },
       move: {
         command: 'mv build/list.pagination.standalone.js dist/list.pagination.js'
       },
@@ -91,8 +88,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha');
 
+  grunt.registerTask('mkdir', function() { grunt.file.mkdir("dist"); });
   grunt.registerTask('default', ['jshint:code', 'jshint:tests', 'shell:install', 'shell:build', 'mocha']);
-  grunt.registerTask('dist', ['default', 'shell:standalone', 'shell:mkdir', 'shell:move', 'uglify']);
+  grunt.registerTask('dist', ['default', 'shell:standalone', 'mkdir', 'shell:move', 'uglify']);
   grunt.registerTask('clean', ['shell:remove']);
 
   grunt.registerTask('test', ['mocha']);
