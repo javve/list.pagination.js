@@ -452,7 +452,8 @@ module.exports = function(options) {
             currentPage = Math.ceil((index / page)),
             innerWindow = options.innerWindow || 2,
             left = options.left || options.outerWindow || 0,
-            right = options.right || options.outerWindow || 0;
+            right = options.right || options.outerWindow || 0,
+            customValue = options.customValue || null;
 
         right = pages - right;
 
@@ -463,8 +464,11 @@ module.exports = function(options) {
             //console.log(i, left, right, currentPage, (currentPage - innerWindow), (currentPage + innerWindow), className);
 
             if (is.number(i, left, right, currentPage, innerWindow)) {
+
+                var value = typeof customValue === 'function' ? customValue.call(pagingList, i, list) : i;
+
                 item = pagingList.add({
-                    page: i,
+                    page: value,
                     dotted: false
                 })[0];
                 if (className) {
